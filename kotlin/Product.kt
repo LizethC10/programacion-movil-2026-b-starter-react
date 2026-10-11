@@ -1,24 +1,41 @@
-// Ejercicio Kotlin · Parte 4 del TODO.md
-//
-// Alcance: solo lo visto en la semana 7 (val/var, funciones, clases, tipos que admiten null,
-// `?.`, `?:`, if/when, plantillas de cadena). No exige proyecto Android.
-// Cómo ejecutarlo: pegue el archivo en https://play.kotlinlang.org o compílelo con `kotlinc`.
+data class Product(
+    val id: Int,
+    val name: String,
+    val price: Double,
+    val category: String,
+    val stock: Int?
+)
 
-// TODO(Parte 4): defina la clase Product con id (Int), name (String), price (Double),
-// category (String) y un campo OPCIONAL: stock (Int?) que puede ser null.
-// Use `val` para lo que no cambia y `var` solo para lo que sí cambia.
+fun stockLabel(stock: Int?): String {
+    if (stock == null) {
+        return "Sin dato"
+    }
 
+    return when {
+        stock == 0 -> "Agotado"
+        stock < 5 -> "Pocas unidades"
+        else -> "Disponible"
+    }
+}
 
-// TODO(Parte 4): stockLabel(stock: Int?): String
-//   null → "Sin dato" · 0 → "Agotado" · menos de 5 → "Pocas unidades" · otro caso → "Disponible"
-//   (use `?:`, `?.` o `if` para tratar el null).
-
-
-// TODO(Parte 4): applyDiscount(price: Double, percent: Int): Double
-//   Devuelve el precio con el descuento aplicado (p. ej. 10000.0 con 15 % → 8500.0).
-
+fun applyDiscount(price: Double, percent: Int): Double {
+    return price * (1 - percent / 100.0)
+}
 
 fun main() {
-    // TODO(Parte 4): cree 3 productos (uno con stock null y uno agotado) e imprima, por cada uno,
-    // su nombre, la etiqueta de stock y su precio con un 10 % de descuento.
+    val products = listOf(
+        Product(1, "Agua mineral", 1800.0, "Bebidas", 120),
+        Product(2, "Producto sin inventario conocido", 5000.0, "Hogar", null),
+        Product(3, "Galletas de avena", 2700.0, "Snacks", 0)
+    )
+
+    for (product in products) {
+        val discountedPrice = applyDiscount(product.price, 10)
+
+        println(
+            "Nombre: ${product.name} | " +
+                "Stock: ${stockLabel(product.stock)} | " +
+                "Precio con 10% de descuento: $discountedPrice"
+        )
+    }
 }
