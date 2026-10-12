@@ -105,6 +105,7 @@ const ProductDetailPage: React.FC = () => {
             <IonList>
               <IonItem>
                 <IonLabel>
+                  <p>ID: {view.id}</p>
                   <h2>{view.name}</h2>
                   <p>Precio: {view.priceLabel}</p>
                   <p>Categoría: {view.category}</p>
